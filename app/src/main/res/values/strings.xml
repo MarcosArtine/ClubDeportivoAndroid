@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CLUB DEPORTIVO</string>
+
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="system">SISTEMA DE GESTIÓN</string>
+    <string name="rememberPass">Olvidé mi contraseña</string>
+    <string name="initSession">INICIAR SESIÓN</string>
+    <string name="remember">Recuerdame</string>
+    <string name="notAccounts">¿No tienes una cuenta?</string>
+    <string name="registerHere">Regístrate aquí</string>
+
+    <string name="members">SOCIOS</string>
+    <string name="payments">PAGOS</string>
+    <string name="activities">ACTIVIDADES</string>
+    <string name="list">LISTADO</string>
+
+</resources>

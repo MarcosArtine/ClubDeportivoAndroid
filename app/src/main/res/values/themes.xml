@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ClubDeportivo" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.ClubDeportivo" parent="Base.Theme.ClubDeportivo" />
+
+<!--Style del boton de login que es usado en activiy_main-->
+    <style name="LoginButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/red_app</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">30dp</item>
+        <item name="rippleColor">@android:color/white</item>
+    </style>
+
+</resources>
