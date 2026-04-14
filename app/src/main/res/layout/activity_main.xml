@@ -61,10 +61,10 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsuario"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/user"
+            android:hint="Email"
             android:inputType="text"
             android:textColor="@android:color/black" />
     </com.google.android.material.textfield.TextInputLayout>

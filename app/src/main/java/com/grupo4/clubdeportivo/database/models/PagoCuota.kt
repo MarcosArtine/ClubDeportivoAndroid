@@ -1,5 +1,6 @@
 package com.grupo4.clubdeportivo.database.models
 
+//QUIZAS DEBA SER OPEN POR PAGOREALIZADO
 data class PagoCuota(
     val cuotaId: Int = 0,
     val socioId: Int, // Relación con Socio

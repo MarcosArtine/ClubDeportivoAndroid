@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import com.grupo4.clubdeportivo.database.dao.UsuarioDAO
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Inicialización de las vistas
-        val etUsuario = findViewById<TextInputEditText>(R.id.etUsuario)
+        val etUsuario = findViewById<TextInputEditText>(R.id.etEmail)
         val etContrasena = findViewById<TextInputEditText>(R.id.etContrasena)
         val tvOlvideContrasena = findViewById<TextView>(R.id.tvOlvideContrasena)
         val btnIniciarSesion = findViewById<Button>(R.id.btnIniciarSesion)
@@ -29,8 +30,13 @@ class MainActivity : AppCompatActivity() {
             val contrasena = etContrasena.text.toString()
 
             if (usuario.isNotEmpty() && contrasena.isNotEmpty()) {
-                // Lógica de autenticación
-                if (usuario == "marcos" && contrasena == "12345678") {
+                //Instanciamos UsuarioDAO
+                val usuarioDao = UsuarioDAO(this)
+
+                // Consultamos a la base de datos
+                val esValido = usuarioDao.buscarUsuario(usuario, contrasena)
+
+                if (esValido){
                     Toast.makeText(this, "¡Ingreso Exitoso!", Toast.LENGTH_SHORT).show()
                     Log.d("LoginActivity", "Login exitoso para usuario: $usuario")
                     // Te redirige a la siguiente pantalla (Intent)
