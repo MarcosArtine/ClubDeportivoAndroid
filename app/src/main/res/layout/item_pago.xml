@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    item_pago.xml — una fila de la lista de pagos.
+    Diseño segun el prototipo en Figma (pantalla Pagos / Pagos4):
+      Ícono (avatar rojo) | Fecha + Nombre en rojo + subtipo | Monto | Ícono comprobante
+
+    El nombre aparece en rojo (@color/red_app) igual que en el Figma donde dice
+    "Rebeca Martínez", "Elías Hernández" y "Lucas Medina" en color rojo.
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <!-- Avatar circular rojo con inicial — igual al Figma -->
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="P"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@color/red_app"
+        android:layout_marginEnd="12dp"/>
+
+    <!-- Bloque central: fecha + nombre + tipo -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Fecha del pago — Figma: "26/01/2026" -->
+        <TextView
+            android:id="@+id/tvFechaPago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dd/MM/yyyy"
+            android:textSize="11sp"
+            android:textColor="#9E9E9E"/>
+
+        <!-- Nombre y apellido en ROJO — igual al Figma -->
+        <TextView
+            android:id="@+id/tvNombrePago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre Apellido"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/red_app"/>
+
+        <!-- Tipo de pago: "Cuota", "Actividad", nombre de actividad -->
+        <TextView
+            android:id="@+id/tvTipoPago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cuota"
+            android:textSize="11sp"
+            android:textColor="#9E9E9E"/>
+
+    </LinearLayout>
+
+    <!-- Monto — Figma: "$4000", "$12000" -->
+    <TextView
+        android:id="@+id/tvMontoPago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$0"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#212121"
+        android:layout_marginEnd="8dp"/>
+
+    <!-- Ícono comprobante — Figma muestra un ícono de impresora/documento a la derecha -->
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@android:drawable/ic_menu_share"
+        android:tint="#9E9E9E"
+        android:contentDescription="Comprobante"/>
+
+</LinearLayout>
