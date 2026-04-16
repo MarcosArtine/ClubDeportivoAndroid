@@ -6,88 +6,29 @@
     android:id="@+id/actividades"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="">
+    android:background="@android:color/white"
+    android:padding="24dp"
+    tools:context=".ActividadesActivity">
 
 
-    <TextView
-        android:id="@+id/tvNuevaActividad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="NUEVA ACTIVIDAD"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvActividades"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.069" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/contenedor"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAgregarActividad"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNuevaActividad"
-        app:layout_constraintVertical_bias="0.061"
-        tools:layout_editor_absoluteX="37dp">
+        android:src="@drawable/ic_mas"
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilMontoActividad"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxStrokeColor="@android:color/black"
-            app:hintTextColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_sistema_gestion">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etMonto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Monto ($) *"
-                android:inputType="text"
-                android:textColor="@android:color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilNombreActividad"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            app:boxStrokeColor="@android:color/black"
-            app:hintTextColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_sistema_gestion">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNombreActividad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre de la actividad *"
-                android:inputType="text"
-                android:textColor="@android:color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btnAgregar"
-            style="@style/LoginButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="40dp"
-            android:text="Agregar actividad"
-            android:textAllCaps="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </LinearLayout>
+        app:backgroundTint="@color/red_app"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

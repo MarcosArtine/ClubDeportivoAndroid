@@ -15,11 +15,16 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val cvActivity = findViewById<MaterialCardView>(R.id.card_actividades)
-
+        val cvPagos = findViewById<MaterialCardView>(R.id.card_pagos)
 
         cvActivity.setOnClickListener {
             val aActividades = Intent(this, ActividadesActivity::class.java)
             startActivity(aActividades)
+        }
+
+        cvPagos.setOnClickListener {
+            val aPagos = Intent(this, PagosActivity::class.java)
+            startActivity(aPagos)
         }
 
     }

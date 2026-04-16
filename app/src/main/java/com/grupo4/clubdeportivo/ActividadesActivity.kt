@@ -1,5 +1,6 @@
 package com.grupo4.clubdeportivo
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -7,41 +8,41 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.grupo4.clubdeportivo.adapters.ActividadAdapter
 import com.grupo4.clubdeportivo.database.dao.ActividadDAO
 
 class ActividadesActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ActividadAdapter
+    private lateinit var db: ActividadDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actividades)
 
-        val etNombre = findViewById<TextInputEditText>(R.id.etNombreActividad)
-        val etMonto = findViewById<TextInputEditText>(R.id.etMonto)
-        val btnAgregar = findViewById<Button>(R.id.btnAgregar)
+        db = ActividadDAO(this)
+        recyclerView = findViewById(R.id.rvActividades)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        btnAgregar.setOnClickListener {
-            val nombre = etNombre.text.toString()
-            val montoStr = etMonto.text.toString()
+        cargarActividades()
 
-            if (nombre.isNotEmpty() && montoStr.isNotEmpty()) {
-                val monto = montoStr.toDouble()
+        val fbtnAgregarActividad = findViewById<FloatingActionButton>(R.id.fabAgregarActividad)
 
-                // Aquí llamamos al ActividadDAO
-                var actividadDAO = ActividadDAO(context = this)
-
-                // Insertamos en la base de datos
-                val esValido = actividadDAO.insertarActividad(nombre, monto)
-
-                Toast.makeText(this, "Actividad guardada: $nombre", Toast.LENGTH_SHORT).show()
-
-                // Limpiar campos
-                etNombre.text?.clear()
-                etMonto.text?.clear()
-            } else {
-                Toast.makeText(this, "Por favor completa los campos", Toast.LENGTH_SHORT).show()
-            }
+        fbtnAgregarActividad.setOnClickListener {
+            val aNuevaActividad = Intent(this, NuevaActividadActivity::class.java)
+            startActivity(aNuevaActividad)
         }
+    }
+
+    private fun cargarActividades() {
+        val listaActividades = db.listarActividades()
+        adapter = ActividadAdapter(listaActividades)
+        recyclerView.adapter = adapter
     }
 
 }

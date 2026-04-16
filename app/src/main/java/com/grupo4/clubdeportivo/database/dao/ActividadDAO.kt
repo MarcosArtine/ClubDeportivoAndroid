@@ -3,6 +3,7 @@ package com.grupo4.clubdeportivo.database.dao
 import android.content.ContentValues
 import android.content.Context
 import com.grupo4.clubdeportivo.database.BDatos
+import com.grupo4.clubdeportivo.database.models.Actividad
 
 class ActividadDAO(context: Context) {
     private val dbHelper = BDatos(context)
@@ -43,8 +44,30 @@ class ActividadDAO(context: Context) {
             put("NombreActividad", nuevoNombre)
             put("MontoActividad", nuevoMonto)
         }
-        val filaActualizada = db.update("Actividad", valores, "ActividadId = ?", arrayOf(idAActualizar.toString()))
+        val filaActualizada =
+            db.update("Actividad", valores, "ActividadId = ?", arrayOf(idAActualizar.toString()))
         db.close()
         return filaActualizada
     }
+
+    fun listarActividades(): List<Actividad> {
+        val lista = mutableListOf<Actividad>()
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM Actividad", null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val actividad = Actividad(
+                    cursor.getInt(0), // ActividadId
+                    cursor.getString(1), // NombreActividad
+                    cursor.getDouble(2) // MontoActividad
+                )
+                lista.add(actividad)
+            } while (cursor.moveToNext())
+        }
+        //???? db.close()
+        cursor.close()
+        return lista
+    }
+
 }
