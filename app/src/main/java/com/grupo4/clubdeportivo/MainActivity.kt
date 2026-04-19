@@ -17,29 +17,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Inicialización de las vistas
-        val etUsuario = findViewById<TextInputEditText>(R.id.etEmail)
+        val etEmail = findViewById<TextInputEditText>(R.id.etEmail)
         val etContrasena = findViewById<TextInputEditText>(R.id.etContrasena)
         val tvOlvideContrasena = findViewById<TextView>(R.id.tvOlvideContrasena)
         val btnIniciarSesion = findViewById<Button>(R.id.btnIniciarSesion)
         val tvRegistrateAqui = findViewById<TextView>(R.id.tvRegistrateAqui)
 
-        // Configuración de los clicks
-
         btnIniciarSesion.setOnClickListener {
-            val usuario = etUsuario.text.toString()
+            val email = etEmail.text.toString()
             val contrasena = etContrasena.text.toString()
 
-            if (usuario.isNotEmpty() && contrasena.isNotEmpty()) {
+            if (email.isNotEmpty() && contrasena.isNotEmpty()) {
+
+                //Hashamos la contraseña por seguridad
+                val contrasenaHasheada = SeguridadUtils.hashPassword(contrasena)
+
                 //Instanciamos UsuarioDAO
                 val usuarioDao = UsuarioDAO(this)
 
-                // Consultamos a la base de datos
-                val esValido = usuarioDao.buscarUsuario(usuario, contrasena)
+                // Consultamos si existe el usuario a la base de datos
+                val esValido = usuarioDao.buscarUsuario(email, contrasenaHasheada)
 
                 if (esValido){
                     Toast.makeText(this, "¡Ingreso Exitoso!", Toast.LENGTH_SHORT).show()
-                    Log.d("LoginActivity", "Login exitoso para usuario: $usuario")
-                    // Te redirige a la siguiente pantalla (Intent)
+                    Log.d("LoginActivity", "Login exitoso")
+                    // Te redirige a la siguiente pantalla Home
                     val aHome = Intent(this, HomeActivity::class.java)
                     startActivity(aHome)
                 } else {
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         // Aquí inicia la activity de recuperación de contraseña
         tvOlvideContrasena.setOnClickListener {
             //Toast.makeText Proporciona una pequeña ventana emergente con información
@@ -58,10 +61,11 @@ class MainActivity : AppCompatActivity() {
 
         // Aquí inicia la activity de registro
         tvRegistrateAqui.setOnClickListener {
-            // Te redirige a la siguiente pantalla (Intent)
+            // Te redirige a la siguiente pantalla de registro
             val aRegister = Intent(this, RegisterActivity::class.java)
             startActivity(aRegister)
             Toast.makeText(this, "Ir a pantalla 'Registro'", Toast.LENGTH_SHORT).show()
         }
     }
+
 }

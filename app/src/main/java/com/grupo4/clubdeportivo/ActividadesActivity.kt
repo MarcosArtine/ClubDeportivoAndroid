@@ -31,9 +31,9 @@ class ActividadesActivity : AppCompatActivity() {
 
         cargarActividades()
 
-        val fbtnAgregarActividad = findViewById<FloatingActionButton>(R.id.fabAgregarActividad)
+        val btnAgregarActividad = findViewById<FloatingActionButton>(R.id.btnNuevaActividad)
 
-        fbtnAgregarActividad.setOnClickListener {
+        btnAgregarActividad.setOnClickListener {
             val aNuevaActividad = Intent(this, NuevaActividadActivity::class.java)
             startActivity(aNuevaActividad)
         }
