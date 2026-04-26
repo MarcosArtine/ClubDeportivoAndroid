@@ -14,17 +14,29 @@ class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
-        val cvActivity = findViewById<MaterialCardView>(R.id.card_actividades)
-        val cvPagos = findViewById<MaterialCardView>(R.id.card_pagos)
+        val cvSocio = findViewById<MaterialCardView>(R.id.card_socios)
+        val cvActividad = findViewById<MaterialCardView>(R.id.card_actividades)
+        val cvPago = findViewById<MaterialCardView>(R.id.card_pagos)
+        val cvListado = findViewById<MaterialCardView>(R.id.card_listado)
 
-        cvActivity.setOnClickListener {
+        cvActividad.setOnClickListener {
             val aActividades = Intent(this, ActividadesActivity::class.java)
             startActivity(aActividades)
         }
 
-        cvPagos.setOnClickListener {
+        cvPago.setOnClickListener {
             val aPagos = Intent(this, PagosActivity::class.java)
             startActivity(aPagos)
+        }
+
+        cvListado.setOnClickListener {
+            val aListado = Intent(this, ListadoActivity::class.java)
+            startActivity(aListado)
+        }
+
+        cvSocio.setOnClickListener {
+            val aSocio = Intent(this, SocioActivity::class.java)
+            startActivity(aSocio)
         }
 
     }

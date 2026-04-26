@@ -94,7 +94,7 @@
                         android:layout_width="120dp"
                         android:layout_height="match_parent"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_pagos" />
+                        android:src="@drawable/ic_pago" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -128,7 +128,7 @@
                         android:layout_width="120dp"
                         android:layout_height="match_parent"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_actividades" />
+                        android:src="@drawable/ic_actividad" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

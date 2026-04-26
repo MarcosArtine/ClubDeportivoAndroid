@@ -2,70 +2,23 @@ package com.grupo4.clubdeportivo
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
-import com.grupo4.clubdeportivo.database.dao.UsuarioDAO
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Inicialización de las vistas
-        val etEmail = findViewById<TextInputEditText>(R.id.etEmail)
-        val etContrasena = findViewById<TextInputEditText>(R.id.etContrasena)
-        val tvOlvideContrasena = findViewById<TextView>(R.id.tvOlvideContrasena)
-        val btnIniciarSesion = findViewById<Button>(R.id.btnIniciarSesion)
-        val tvRegistrateAqui = findViewById<TextView>(R.id.tvRegistrateAqui)
+        // Usamos un Handler para ejecutar código después de un retraso
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Creamos el Intent que nos envia al Login
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
 
-        btnIniciarSesion.setOnClickListener {
-            val email = etEmail.text.toString()
-            val contrasena = etContrasena.text.toString()
-
-            if (email.isNotEmpty() && contrasena.isNotEmpty()) {
-
-                //Hashamos la contraseña por seguridad
-                val contrasenaHasheada = SeguridadUtils.hashPassword(contrasena)
-
-                //Instanciamos UsuarioDAO
-                val usuarioDao = UsuarioDAO(this)
-
-                // Consultamos si existe el usuario a la base de datos
-                val esValido = usuarioDao.buscarUsuario(email, contrasenaHasheada)
-
-                if (esValido){
-                    Toast.makeText(this, "¡Ingreso Exitoso!", Toast.LENGTH_SHORT).show()
-                    Log.d("LoginActivity", "Login exitoso")
-                    // Te redirige a la siguiente pantalla Home
-                    val aHome = Intent(this, HomeActivity::class.java)
-                    startActivity(aHome)
-                } else {
-                    Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-        // Aquí inicia la activity de recuperación de contraseña
-        tvOlvideContrasena.setOnClickListener {
-            //Toast.makeText Proporciona una pequeña ventana emergente con información
-            Toast.makeText(this, "Ir a pantalla 'Olvidé contraseña'", Toast.LENGTH_SHORT).show()
-        }
-
-        // Aquí inicia la activity de registro
-        tvRegistrateAqui.setOnClickListener {
-            // Te redirige a la siguiente pantalla de registro
-            val aRegister = Intent(this, RegisterActivity::class.java)
-            startActivity(aRegister)
-            Toast.makeText(this, "Ir a pantalla 'Registro'", Toast.LENGTH_SHORT).show()
-        }
+            // Cerramos esta actividad para que el usuario no pueda volver atrás
+            finish()
+        }, 2000) // 2000 equivale a 2 segundos. PREGUNTAR A ANI SI QUIERE MENOS
     }
-
 }

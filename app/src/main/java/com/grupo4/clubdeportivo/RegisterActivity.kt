@@ -7,8 +7,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.grupo4.clubdeportivo.database.dao.UsuarioDAO
 
@@ -25,9 +23,9 @@ class RegisterActivity : AppCompatActivity() {
         val btnCrearCuenta = findViewById<Button>(R.id.btnCrearCuenta)
 
         btnCrearCuenta.setOnClickListener {
-            val email = etEmail.text.toString()
-            val contrasena = etContrasena.text.toString()
-            val nombre = etNombre.text.toString()
+            val email = etEmail.text.toString().trim()
+            val contrasena = etContrasena.text.toString().trim()
+            val nombre = etNombre.text.toString().trim()
 
             if (email.isNotEmpty() && contrasena.isNotEmpty() && nombre.isNotEmpty()) {
 
@@ -50,12 +48,11 @@ class RegisterActivity : AppCompatActivity() {
                 // Consultamos si existe el usuario a la base de datos
                 val esValido = usuarioDao.insertarUsuario(email, contrasenaHasheada, nombre)
 
-                // Si el usuario fue registrado obtendra un Id que sera mayo o igual a 0
-                if (esValido >= 0) {
+                if (esValido) {
                     Toast.makeText(this, "¡Registro Exitoso!", Toast.LENGTH_SHORT).show()
                     Log.d("RegisterActivity", "Registro exitoso")
                     // Te redirige a la siguiente pantalla Home
-                    val aLogin = Intent(this, MainActivity::class.java)
+                    val aLogin = Intent(this, LoginActivity::class.java)
                     startActivity(aLogin)
                 } else {
                     Toast.makeText(this, "No se pudo registrar", Toast.LENGTH_SHORT).show()

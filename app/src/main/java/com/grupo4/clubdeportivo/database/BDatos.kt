@@ -45,7 +45,8 @@ class BDatos(context: Context) : SQLiteOpenHelper(context, "Club.db", null, 1) {
         private const val SQL_CREATE_ACTIVIDAD = """CREATE TABLE Actividad (
         ActividadId INTEGER PRIMARY KEY AUTOINCREMENT,
         NombreActividad TEXT NOT NULL UNIQUE,
-        MontoActividad REAL NOT NULL
+        MontoActividad REAL NOT NULL,
+        URLImagen TEXT NOT NULL
         )
         """
 

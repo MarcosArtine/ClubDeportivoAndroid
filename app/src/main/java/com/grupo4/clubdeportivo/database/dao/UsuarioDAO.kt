@@ -8,16 +8,17 @@ import com.grupo4.clubdeportivo.database.BDatos
 class UsuarioDAO(context: Context) {
     private val dbHelper = BDatos(context)
 
-    fun insertarUsuario(nuevoEmail:String, nuevaContrasena: String, nuevoNombre: String): Long {
+    fun insertarUsuario(nuevoEmail:String, nuevaContrasena: String, nuevoNombre: String): Boolean {
         val db = dbHelper.writableDatabase
         val valores = ContentValues().apply {
             put("Emain", nuevoEmail)
             put("Contrasena", nuevaContrasena)
             put("Nombre", nuevoNombre)
         }
-        val id = db.insert("Usuario", null, valores)
+        val resultado = db.insert("Usuario", null, valores)
         db.close()
-        return id
+        // Si es distinto de -1 devuelve true, si es -1 devuelve false.
+        return resultado != -1L
     }
 
     fun borrarUsuario(idABorrar: Int): Int {

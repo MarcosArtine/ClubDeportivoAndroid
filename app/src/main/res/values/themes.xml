@@ -7,7 +7,7 @@
 
     <style name="Theme.ClubDeportivo" parent="Base.Theme.ClubDeportivo" />
 
-<!--Style del boton de login que es usado en activiy_main-->
+<!--Style del boton que es usado a lo largo del proyecto-->
     <style name="LoginButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/red_app</item>
         <item name="android:textColor">@android:color/white</item>

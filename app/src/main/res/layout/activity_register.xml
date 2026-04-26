@@ -36,7 +36,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Crear nombre"
+        android:hint="Nombre"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         android:layout_marginTop="30dp">
 
@@ -52,7 +52,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Crear correo electrónico"
+        android:hint="Correo electrónico"
         app:layout_constraintTop_toBottomOf="@id/tilName"
         android:layout_marginTop="16dp">
 

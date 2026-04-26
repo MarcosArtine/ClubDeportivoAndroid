@@ -43,6 +43,20 @@
         app:layout_constraintVertical_bias="0.061"
         tools:layout_editor_absoluteX="37dp">
 
+
+        <ImageButton
+            android:id="@+id/btnSeleccionarImagen"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:padding="25dp"
+            android:background="@drawable/circulo_rojo_fondo"
+            android:src="@android:drawable/ic_menu_camera"
+            android:scaleType="fitCenter"
+            android:contentDescription="Seleccionar foto de actividad" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilMontoActividad"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

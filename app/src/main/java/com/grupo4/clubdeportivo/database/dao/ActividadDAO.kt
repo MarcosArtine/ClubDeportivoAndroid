@@ -8,15 +8,17 @@ import com.grupo4.clubdeportivo.database.models.Actividad
 class ActividadDAO(context: Context) {
     private val dbHelper = BDatos(context)
 
-    fun insertarActividad(nuevaActividad: String, montoActividad: Double): Long {
+    fun insertarActividad(nuevaActividad: String, montoActividad: Double, nuevaUrl: String): Boolean {
         val db = dbHelper.writableDatabase
         val valores = ContentValues().apply {
             put("NombreActividad", nuevaActividad)
             put("MontoActividad", montoActividad)
+            put("URLImangen", nuevaUrl)
         }
-        val id = db.insert("Actividad", null, valores)
+        val resultado = db.insert("Actividad", null, valores)
         db.close()
-        return id
+       // Si es distinto de -1 devuelve true, si es -1 devuelve false.
+        return resultado != -1L
     }
 
     fun borrarActividad(idABorrar: Int): Int {
@@ -60,7 +62,8 @@ class ActividadDAO(context: Context) {
                 val actividad = Actividad(
                     cursor.getInt(0), // ActividadId
                     cursor.getString(1), // NombreActividad
-                    cursor.getDouble(2) // MontoActividad
+                    cursor.getDouble(2), // MontoActividad
+                    cursor.getString(3) // URLIamgen
                 )
                 lista.add(actividad)
             } while (cursor.moveToNext())
