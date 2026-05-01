@@ -145,7 +145,7 @@
     <CheckBox
         android:id="@+id/cbRecuerdame"
         android:layout_width="119dp"
-        android:layout_height="24dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="140dp"
         android:text="@string/remember"

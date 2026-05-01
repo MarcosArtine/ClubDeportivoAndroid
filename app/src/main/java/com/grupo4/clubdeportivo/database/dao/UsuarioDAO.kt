@@ -11,7 +11,7 @@ class UsuarioDAO(context: Context) {
     fun insertarUsuario(nuevoEmail:String, nuevaContrasena: String, nuevoNombre: String): Boolean {
         val db = dbHelper.writableDatabase
         val valores = ContentValues().apply {
-            put("Emain", nuevoEmail)
+            put("Email", nuevoEmail)
             put("Contrasena", nuevaContrasena)
             put("Nombre", nuevoNombre)
         }
