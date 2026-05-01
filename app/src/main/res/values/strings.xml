@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">CLUB DEPORTIVO</string>
 
+    <string name="name">Nombre</string>
+
+    <style name="crearCuenta">CREAR CUENTA</style>
+
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="system">SISTEMA DE GESTIÓN</string>
