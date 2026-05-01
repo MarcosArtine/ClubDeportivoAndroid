@@ -19,6 +19,6 @@ class MainActivity : AppCompatActivity() {
 
             // Cerramos esta actividad para que el usuario no pueda volver atrás
             finish()
-        }, 2000) // 2000 equivale a 2 segundos. PREGUNTAR A ANI SI QUIERE MENOS
+        }, 2000)
     }
 }

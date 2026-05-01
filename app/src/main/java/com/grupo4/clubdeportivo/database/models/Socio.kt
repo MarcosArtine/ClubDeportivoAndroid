@@ -12,6 +12,6 @@ data class Socio(
     override val nroDni: String,
     override val fechaNacimiento: String,
     override val mail: String,
-    override val telefono: String
-    // AGREGAR APTO FISICO!!!
-) : Persona(nombre, apellido, tipoDni, nroDni, fechaNacimiento, mail, telefono)
+    override val telefono: String,
+    override val aptoFisico: Boolean
+) : Persona(nombre, apellido, tipoDni, nroDni, fechaNacimiento, mail, telefono, aptoFisico)
