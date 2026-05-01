@@ -1,72 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:padding="24dp"
-    tools:context=".LoginActivity">
-
-    <LinearLayout
-        android:id="@+id/layout_logo"
+    tools:context=".RegisterActivity">
+    
+    <ImageButton
+        android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_flecha_atras"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/text_sistema_gestion"
-        app:layout_constraintVertical_bias="0.3"
-        app:layout_constraintVertical_chainStyle="packed">
-<!--ChainStyle "packed" mantiene unidos. Bias "0.3" Ubica al grupo unido un poco más arriba de la mitad de la pantalla-->
-
-
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_logo"
-            android:layout_marginTop="4dp" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_sistema_gestion"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/system"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:text="COMPLETA CON TUS DATOS"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="32dp"
-        android:letterSpacing="0.1"
-        app:layout_constraintTop_toBottomOf="@id/layout_logo"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:layout_marginTop="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:boxStrokeColor="@android:color/black"
-        app:hintTextColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/text_sistema_gestion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:hint="Correo electrónico"
+        app:layout_constraintTop_toBottomOf="@id/tilName"
+        android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="text"
-            android:textColor="@android:color/black" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -74,83 +68,25 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:boxStrokeColor="@android:color/black"
-        app:hintTextColor="@android:color/black"
+        android:hint="Crear contraseña"
+        app:endIconMode="password_toggle"
         app:layout_constraintTop_toBottomOf="@id/tilEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:passwordToggleEnabled="true">
+        android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etContrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textColor="@android:color/black" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tvOlvideContrasena"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rememberPass"
-        android:textColor="@color/red_app"
-        android:textSize="14sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tilPassword"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <Button
-        android:id="@+id/btnIniciarSesion"
+        android:id="@+id/btnCrearCuenta"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="@string/initSession"
-        android:textAllCaps="true"
+        android:layout_height="56dp"
+        android:text="CREAR CUENTA"
+        app:layout_constraintTop_toBottomOf="@id/tilPassword"
         android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@id/tvOlvideContrasena"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/LoginButtonStyle" />
-
-    <LinearLayout
-        android:id="@+id/layout_registro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/notAccounts"
-            android:textColor="@android:color/black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tvRegistrateAqui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/registerHere"
-            android:textColor="@color/red_app"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/cbRecuerdame"
-        android:layout_width="119dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="140dp"
-        android:text="@string/remember"
-        android:textColor="@color/red_app"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        style="@style/LoginButtonStyle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
