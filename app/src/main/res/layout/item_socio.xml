@@ -9,7 +9,7 @@
         android:id="@+id/imgIcono"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_socio" />
+        android:src="@drawable/ic_socioitem" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -32,5 +32,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_edit" />
+        android:src="@drawable/ic_option" />
 </LinearLayout>

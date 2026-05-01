@@ -74,6 +74,7 @@
             app:layout_constraintTop_toBottomOf="@id/tilApellido">
 
             <AutoCompleteTextView
+                android:id="@+id/actvTipoDoc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Tipo documento"
@@ -123,6 +124,7 @@
             app:layout_constraintTop_toBottomOf="@id/tilEmail">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFecha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Fecha de nacimiento"
@@ -155,6 +157,7 @@
             app:layout_constraintTop_toBottomOf="@id/tilCelular">
 
             <AutoCompleteTextView
+                android:id="@+id/actvTipoCliente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Tipo de cliente"

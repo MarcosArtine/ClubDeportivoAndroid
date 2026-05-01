@@ -81,7 +81,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@android:drawable/ic_menu_share"
+        android:src="@drawable/ic_comprobante"
         android:tint="#9E9E9E"
         android:contentDescription="Comprobante"/>
 
