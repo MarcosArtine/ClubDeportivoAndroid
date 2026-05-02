@@ -109,7 +109,7 @@ class SocioDAO(context: Context) {
             SELECT
                 p.PersonaId, p.Nombre, p.Apellido, p.TipoDni, p.NroDni,
                 p.FechaNacimiento, p.Email, p.Telefono, p.AptoFisico,
-                s.FechaAltaSocio, s.NroCarnet, s.EstadoSocio
+                s.FechaAltaSocio, s.NroCarnet, s.Estad oSocio
             FROM Socio s
             INNER JOIN Persona p ON s.SocioId = p.PersonaId
             WHERE s.SocioId = ?
