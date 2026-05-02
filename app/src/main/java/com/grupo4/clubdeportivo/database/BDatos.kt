@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-//LA BASE DE DATOS SE TIENE QUE LLAMAR CLUB.DB
+//LA BASE DE DATOS SE LLAMA CLUB.DB
 class BDatos(context: Context) : SQLiteOpenHelper(context, "Club.db", null, 1) {
 
     companion object {
@@ -24,7 +24,8 @@ class BDatos(context: Context) : SQLiteOpenHelper(context, "Club.db", null, 1) {
         NroDni TEXT NOT NULL UNIQUE,
         FechaNacimiento TEXT,
         Telefono TEXT,
-        Email TEXT
+        Email TEXT,
+        AptoFisico INTEGER NOT NULL DEFAULT 1
         )
         """
 
