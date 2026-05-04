@@ -6,22 +6,10 @@ import android.database.Cursor
 import com.grupo4.clubdeportivo.database.BDatos
 import com.grupo4.clubdeportivo.database.models.PagoCuota
 
-// PagoCuotaDAO — maneja los pagos de cuota mensual de los SOCIOS.
-// Trabaja con las tablas PagoCuota y PagoRealizado definidas en BDatos.kt.
-// IMPORTANTE: me adecue en el trabajo de Marcos:
-//   - Columnas en PascalCase: SocioId, MontoCuota, FechaVencimientoCuota, etc.
-//   - PagoRealizado es el registro maestro del comprobante (viene del diseño original)
 class PagoCuotaDAO(context: Context) {
 
     private val dbHelper = BDatos(context)
 
-    // ==========================================================================
-    // INSERTAR PAGO ÚNICO — caso de uso 5, escenario 1
-    // ==========================================================================
-    // Flujo en dos pasos dentro de una transacción:
-    //   1. Insertar en PagoRealizado → genera el comprobante
-    //   2. Insertar en PagoCuota vinculado al comprobante
-    // Retorna el PagoRealizadoId (para mostrarlo como número de comprobante), -1 si falla.
     fun insertarPagoCuota(
         socioId: Int,
         fechaVencimiento: String,
@@ -36,7 +24,6 @@ class PagoCuotaDAO(context: Context) {
 
         return try {
 
-            // Paso 1: comprobante maestro en PagoRealizado
             val valoresPR = ContentValues().apply {
                 put("MontoTotal",    montoCuota)
                 put("TipoConcepto", "Cuota")
@@ -46,7 +33,6 @@ class PagoCuotaDAO(context: Context) {
             val pagoRealizadoId = db.insert("PagoRealizado", null, valoresPR)
             if (pagoRealizadoId == -1L) throw Exception("Error al insertar PagoRealizado")
 
-            // Paso 2: detalle de la cuota
             val valoresPC = ContentValues().apply {
                 put("SocioId",               socioId)
                 put("FechaVencimientoCuota", fechaVencimiento)
@@ -71,15 +57,6 @@ class PagoCuotaDAO(context: Context) {
             db.close()
         }
     }
-
-    // ==========================================================================
-    // INSERTAR PLAN DE CUOTAS — caso de uso 5, escenario 2
-    // ==========================================================================
-    // Prototipo Figma: opciones de medio de pago incluyen "Tarjeta (3 pagos)" y "Tarjeta (6 pagos)".
-    // Crea UN PagoRealizado por el total y N filas en PagoCuota.
-    // La columna PagoRealizadoId en PagoCuota tiene restricción UNIQUE en BDatos,
-    // por eso solo la primera cuota lleva el ID del comprobante; las demás quedan en NULL.
-    // Retorna la lista de cuotas generadas para mostrar el comprobante, lista vacía si falla.
     fun insertarPlanCuotas(
         socioId: Int,
         montoTotal: Double,
@@ -97,7 +74,6 @@ class PagoCuotaDAO(context: Context) {
 
             val montoPorCuota = montoTotal / cantidadCuotas
 
-            // Un único comprobante para todo el plan
             val valoresPR = ContentValues().apply {
                 put("MontoTotal",    montoTotal)
                 put("TipoConcepto", "Cuota")
@@ -111,12 +87,10 @@ class PagoCuotaDAO(context: Context) {
             val cal = java.util.Calendar.getInstance()
 
             for (i in 0 until cantidadCuotas) {
-                // Mes y año de esta cuota (Calendar maneja el overflow de diciembre automáticamente)
                 cal.set(anioInicio, mesInicio - 1 + i, 1)
                 val mesCuota  = cal.get(java.util.Calendar.MONTH) + 1
                 val anioCuota = cal.get(java.util.Calendar.YEAR)
 
-                // Vencimiento = último día del mes
                 cal.set(java.util.Calendar.DAY_OF_MONTH,
                     cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH))
                 val fechaVenc = sdf.format(cal.time)
@@ -164,11 +138,6 @@ class PagoCuotaDAO(context: Context) {
         }
     }
 
-    // ==========================================================================
-    // LISTAR PAGOS CON DETALLE — para la pantalla principal de Pagos (lista del Figma)
-    // ==========================================================================
-    // Retorna los PagoRealizado de tipo Cuota con nombre y apellido del socio.
-    // El Figma muestra: nombre apellido | $monto | ícono comprobante
     fun listarPagosConDetalle(): List<Map<String, String>> {
 
         val db = dbHelper.readableDatabase
@@ -215,9 +184,6 @@ class PagoCuotaDAO(context: Context) {
         return lista
     }
 
-    // ==========================================================================
-    // VERIFICAR SI YA PAGÓ EL MES
-    // ==========================================================================
     fun yaPagoElMes(socioId: Int, mes: Int, anio: Int): Boolean {
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery(
@@ -231,9 +197,6 @@ class PagoCuotaDAO(context: Context) {
         return yaPago
     }
 
-    // ==========================================================================
-    // LISTAR MOROSOS — cuotas sin pagar (caso de uso 7)
-    // ==========================================================================
     fun listarCuotasPendientes(): List<Map<String, String>> {
         val db = dbHelper.readableDatabase
         val lista = mutableListOf<Map<String, String>>()

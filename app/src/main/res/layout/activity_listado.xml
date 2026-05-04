@@ -52,7 +52,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Línea divisoria -->
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
@@ -60,7 +59,6 @@
         android:background="#E0E0E0"
         app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
-    <!-- RecyclerView para la lista de socios -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvListadoSocios"
         android:layout_width="0dp"

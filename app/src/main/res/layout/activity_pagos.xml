@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    activity_pagos.xml — pantalla de Pagos.
-    Tiene DOS secciones que se alternan con visibility:
-      1. layoutListaPagos: lista principal (Pagos / Pagos4 del Figma)
-      2. layoutFormulario: formulario Nuevo Pago (Pagos1 / Pagos2 / Pagos3 del Figma)
-    El color primario es @color/red_app (#A31900) según colors.xml del proyecto base.
--->
+
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,9 +7,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- ======================================================
-         SECCIÓN 1: LISTA DE PAGOS (pantalla principal - Pagos/Pagos4 del Figma)
-    ====================================================== -->
     <LinearLayout
         android:id="@+id/layoutListaPagos"
         android:layout_width="match_parent"
@@ -23,7 +14,6 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <!-- Barra superior: "Pagos" + botón "+" rojo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -42,7 +32,6 @@
                 android:textStyle="bold"
                 android:textColor="#212121"/>
 
-            <!-- Botón "+" circular rojo — igual al Figma Pagos y SociosPago2 -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnNuevoPago"
                 android:layout_width="wrap_content"
@@ -55,7 +44,6 @@
 
         </LinearLayout>
 
-        <!-- Mensaje cuando no hay pagos -->
         <TextView
             android:id="@+id/tvSinPagos"
             android:layout_width="match_parent"
@@ -67,7 +55,6 @@
             android:padding="40dp"
             android:visibility="gone"/>
 
-        <!-- Lista de pagos — cada fila es item_pago.xml -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerPagos"
             android:layout_width="match_parent"
@@ -78,9 +65,6 @@
 
     </LinearLayout>
 
-    <!-- ======================================================
-         SECCIÓN 2: FORMULARIO NUEVO PAGO (Pagos1/2/3 del Figma)
-    ====================================================== -->
     <LinearLayout
         android:id="@+id/layoutFormulario"
         android:layout_width="match_parent"
@@ -89,7 +73,6 @@
         android:background="@android:color/white"
         android:visibility="gone">
 
-        <!-- Barra superior: flecha atrás + título "Nuevo Pago" -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -99,7 +82,6 @@
             android:elevation="4dp"
             android:background="@android:color/white">
 
-            <!-- Flecha atrás — igual al Figma Pagos1/Pagos2/Pagos3 -->
             <ImageButton
                 android:id="@+id/btnVolver"
                 android:layout_width="40dp"
@@ -118,12 +100,10 @@
                 android:textColor="#212121"
                 android:gravity="center"/>
 
-            <!-- Espacio para balancear la flecha -->
             <View android:layout_width="40dp" android:layout_height="40dp"/>
 
         </LinearLayout>
 
-        <!-- Contenido del formulario con scroll -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -135,28 +115,58 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!--
-                    Campo ID — Figma Pagos1: campo vacío / Pagos2: ingresando / Pagos3: autocompleto
-                    Al perder foco busca el cliente y rellena los campos de abajo.
-                -->
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ID"
+                    android:orientation="horizontal"
                     android:layout_marginBottom="12dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etId"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="6"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:gravity="center_vertical">
 
-                <!--
-                    Tipo de cliente — Figma Pagos3: aparece "Socio" de forma automática
-                    El spinner se actualiza desde el código al encontrar el ID.
-                -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="ID o nombre del cliente"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:imeOptions="actionSearch"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBuscarCliente"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="8dp"
+                        android:padding="0dp"
+                        app:icon="@android:drawable/ic_menu_search"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:backgroundTint="@color/red_app"
+                        android:contentDescription="Buscar cliente"
+                        style="@style/Widget.MaterialComponents.Button.Icon"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvClienteEncontrado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:padding="12dp"
+                    android:textSize="14sp"
+                    android:textColor="#4CAF50"
+                    android:background="#E8F5E9"
+                    android:visibility="gone"
+                    android:text=""/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -171,7 +181,6 @@
                     android:background="@drawable/spinner_background"
                     android:layout_marginBottom="12dp"/>
 
-                <!-- Nombre — autocompletado al buscar por ID -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,7 +195,6 @@
                         android:focusable="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Apellido — autocompletado al buscar por ID -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -201,10 +209,6 @@
                         android:focusable="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!--
-                    Tipo de pago — "Cuota" para Socios, "Actividad" para NoSocios.
-                    Al seleccionar "Actividad" aparece el spinner de actividades.
-                -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -219,10 +223,6 @@
                     android:background="@drawable/spinner_background"
                     android:layout_marginBottom="12dp"/>
 
-                <!--
-                    Spinner de Actividad — visible solo cuando Tipo de pago = "Actividad"
-                    Se oculta con View.GONE para NoSocios con pago de cuota
-                -->
                 <LinearLayout
                     android:id="@+id/layoutActividad"
                     android:layout_width="match_parent"
@@ -246,10 +246,6 @@
 
                 </LinearLayout>
 
-                <!--
-                    Medio de pago — Figma Frame 9: Efectivo / Tarjeta / Tarjeta (3 pagos) / Tarjeta (6 pagos)
-                    "Tarjeta (3 pagos)" y "Tarjeta (6 pagos)" activan el plan de cuotas en PagoCuotaDAO
-                -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -264,7 +260,6 @@
                     android:background="@drawable/spinner_background"
                     android:layout_marginBottom="12dp"/>
 
-                <!-- Importe — Figma Pagos3: "$12000" -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -278,7 +273,6 @@
                         android:inputType="numberDecimal"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Botón PAGAR — rojo redondeado igual al Figma -->
                 <Button
                     android:id="@+id/btnPagar"
                     android:layout_width="match_parent"

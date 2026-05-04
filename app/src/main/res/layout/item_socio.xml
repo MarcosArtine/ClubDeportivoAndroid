@@ -1,16 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground">
 
+    <!-- Ícono circular a la izquierda — igual que antes -->
     <ImageView
         android:id="@+id/imgIcono"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_socioitem" />
+        android:src="@drawable/ic_socioitem"
+        android:contentDescription="Ícono de socio" />
 
+    <!-- Columna central con los tres datos del socio -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,18 +24,35 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvNumeroSocio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#9E9E9E" />
+
+        <TextView
             android:id="@+id/tvNombreSocio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/red_app"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvEstadoSocio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
+
     </LinearLayout>
 
+    <!-- Botón tres puntos (⋮) — igual que antes -->
     <ImageButton
         android:id="@+id/btnEditar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_option" />
+        android:src="@drawable/ic_option"
+        android:contentDescription="Opciones del socio" />
+
 </LinearLayout>

@@ -1,11 +1,11 @@
 package com.grupo4.clubdeportivo.database.models
 
 data class Socio(
-    val idSocio: Int = 0, //El 0 indica que aún no tiene ID en la base de datos.
+    val idSocio: Int = 0,
     val fechaAltaSocio: String,
     val nroCarnet: String,
+    val estadoSocio: String = "Activo",
 
-    // Atributos heredados de Persona
     override val nombre: String,
     override val apellido: String,
     override val tipoDni: String,

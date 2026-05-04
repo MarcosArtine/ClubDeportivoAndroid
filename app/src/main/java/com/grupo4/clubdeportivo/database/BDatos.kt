@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 //LA BASE DE DATOS SE LLAMA CLUB.DB
-class BDatos(context: Context) : SQLiteOpenHelper(context, "Club.db", null, 1) {
+class BDatos(context: Context) : SQLiteOpenHelper(context, "Club.db", null, 2) {
 
     companion object {
         private const val SQL_CREATE_USUARIOS = """CREATE TABLE Usuario (
@@ -33,6 +33,7 @@ class BDatos(context: Context) : SQLiteOpenHelper(context, "Club.db", null, 1) {
         SocioId INTEGER PRIMARY KEY,
         FechaAltaSocio TEXT NOT NULL,
         NroCarnet TEXT NOT NULL UNIQUE,
+        EstadoSocio TEXT NOT NULL DEFAULT 'Activo',  
         FOREIGN KEY (SocioId) REFERENCES Persona(PersonaId) ON DELETE CASCADE
         )
         """

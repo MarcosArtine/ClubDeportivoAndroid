@@ -10,5 +10,6 @@ data class NoSocio(
     override val nroDni: String,
     override val fechaNacimiento: String,
     override val mail: String,
-    override val telefono: String
-) : Persona(nombre, apellido, tipoDni, nroDni, fechaNacimiento, mail, telefono)
+    override val telefono: String,
+    override val aptoFisico: Boolean = false
+) : Persona(nombre, apellido, tipoDni, nroDni, fechaNacimiento, mail, telefono, aptoFisico)

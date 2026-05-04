@@ -46,7 +46,6 @@ class NuevoSocioActivity : AppCompatActivity() {
         inicializarVistas()
         setupDropdowns()
 
-        // Abrimos el selector para elegir la fecha de nacimiento
         etFecha.setOnClickListener {
             mostrarCalendario()
         }
@@ -69,26 +68,27 @@ class NuevoSocioActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Creamos el Socio segun el modelo (FALTA EL APTO FISICO AVISAR A ANI!!!)
             // El idSocio es 0 por defecto
             val nuevoSocio = Socio(
                 idSocio = 0,
                 fechaAltaSocio = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()),
-                nroCarnet = "SOC-${System.currentTimeMillis()}", // Generación simple de carnet
+                nroCarnet = "SOC-${System.currentTimeMillis()}",
+                estadoSocio = "Activo",
                 nombre = nombre,
                 apellido = apellido,
                 tipoDni = tipoDoc,
                 nroDni = numDoc,
                 fechaNacimiento = fechaNac,
                 mail = email,
-                telefono = celular
+                telefono = celular,
+                aptoFisico = tieneApto
             )
 
             val resultado = socioDAO.insertarSocio(nuevoSocio)
 
             if (resultado > 0) {
                 Toast.makeText(this, "Socio registrado con éxito!", Toast.LENGTH_LONG).show()
-                finish() // Cerramos la actividad y volvemos atrás
+                finish()
             } else {
                 Toast.makeText(this, "Error al registrar el socio", Toast.LENGTH_SHORT).show()
             }
@@ -109,7 +109,6 @@ class NuevoSocioActivity : AppCompatActivity() {
         btnRegistrar = findViewById(R.id.btnRegistrar)
     }
 
-    //Función para opciones de los desplegables
     private fun setupDropdowns() {
         val tiposDoc = arrayOf("DNI", "Pasaporte", "Cédula")
         val adapterDoc = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, tiposDoc)

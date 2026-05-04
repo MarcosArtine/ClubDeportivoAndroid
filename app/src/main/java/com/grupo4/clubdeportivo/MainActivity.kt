@@ -11,7 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Usamos un Handler para ejecutar código después de un retraso
         Handler(Looper.getMainLooper()).postDelayed({
             // Creamos el Intent que nos envia al Login
             val intent = Intent(this, LoginActivity::class.java)

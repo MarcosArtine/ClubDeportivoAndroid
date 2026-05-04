@@ -22,8 +22,6 @@
         app:layout_constraintBottom_toTopOf="@+id/text_sistema_gestion"
         app:layout_constraintVertical_bias="0.3"
         app:layout_constraintVertical_chainStyle="packed">
-<!--ChainStyle "packed" mantiene unidos. Bias "0.3" Ubica al grupo unido un poco más arriba de la mitad de la pantalla-->
-
 
         <ImageView
             android:id="@+id/ivLogo"

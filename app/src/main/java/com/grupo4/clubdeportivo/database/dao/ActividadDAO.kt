@@ -13,7 +13,7 @@ class ActividadDAO(context: Context) {
         val valores = ContentValues().apply {
             put("NombreActividad", nuevaActividad)
             put("MontoActividad", montoActividad)
-            put("URLImangen", nuevaUrl)
+            put("URLImagen", nuevaUrl)
         }
         val resultado = db.insert("Actividad", null, valores)
         db.close()

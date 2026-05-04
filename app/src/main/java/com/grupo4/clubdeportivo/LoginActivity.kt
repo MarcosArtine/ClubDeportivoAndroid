@@ -88,14 +88,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-
-        // Aquí inicia la activity de recuperación de contraseña
         tvOlvideContrasena.setOnClickListener {
-            //Toast.makeText Proporciona una pequeña ventana emergente con información
             Toast.makeText(this, "Ir a pantalla 'Olvidé contraseña'", Toast.LENGTH_SHORT).show()
         }
 
-        // Aquí inicia la activity de registro
         tvRegistrateAqui.setOnClickListener {
             // Te redirige a la siguiente pantalla de registro
             val aRegister = Intent(this, RegisterActivity::class.java)
