@@ -250,11 +250,11 @@ ClubDeportivoAndroid/
 ## 📱 Módulos y pantallas
 
 ### 🔐 Autenticación
-| Pantalla |     Activity       |          Descripción                |
-|---.......|--------------------|-------------------------------------|
-| Splash   | `MainActivity`     | Pantalla de entrada con logo        |
-| Login    | `LoginActivity`    | Email + contraseña con hash SHA-256 |
-| Registro | `RegisterActivity` | Crear cuenta de empleado            |
+| Pantalla | Activity | Descripción |
+|---|---|---|
+| Splash | `MainActivity` | Pantalla de entrada con logo |
+| Login | `LoginActivity` | Email + contraseña con hash SHA-256 |
+| Registro | `RegisterActivity` | Crear cuenta de empleado |
 
 ### 👤 Socios
 | Pantalla | Activity | Descripción |
