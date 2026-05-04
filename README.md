@@ -22,7 +22,7 @@
 
 ## 📑 Índice
 
-- [📋 Descripción general](#-descripción-general)
+- [📋 Descripcion general](#-descripcion-general)
 - [👥 Equipo](#-equipo)
 - [🏗️ Arquitectura](#️-arquitectura)
 - [📁 Estructura de carpetas](#-estructura-de-carpetas)
