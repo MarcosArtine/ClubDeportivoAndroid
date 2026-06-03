@@ -72,11 +72,16 @@ class NuevoSocioActivity : AppCompatActivity() {
             val fechaNac = etFecha.text.toString().trim()
             val celular = etCelular.text.toString().trim()
             val tipoCliente = actvTipoCliente.text.toString().trim() // "Socio" o "No Socio"
-            val tieneApto = switchApto.isChecked
+            val tieneApto = switchApto
 
             // Validar campos obligatorios comunes
             if (nombre.isEmpty() || apellido.isEmpty() || numDoc.isEmpty() || tipoCliente.isEmpty()) {
                 Toast.makeText(this, "Por favor, completa los campos obligatorios", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!tieneApto.isChecked) {
+                Toast.makeText(this, "Por favor, marca la casilla si el cliente tiene el apto físico", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -96,7 +101,7 @@ class NuevoSocioActivity : AppCompatActivity() {
                     fechaNacimiento = fechaNac,
                     mail = email,
                     telefono = celular,
-                    aptoFisico = tieneApto
+                    aptoFisico = tieneApto.isChecked
                 )
                 val id = socioDAO.insertarSocio(nuevoSocio)
                 resultadoExitoso = id > 0
@@ -112,7 +117,7 @@ class NuevoSocioActivity : AppCompatActivity() {
                     fechaNacimiento = fechaNac,
                     mail = email,
                     telefono = celular,
-                    aptoFisico = tieneApto
+                    aptoFisico = tieneApto.isChecked
                 )
                 val noSocioDAO = NoSocioDAO(this)
                 val id = noSocioDAO.insertarNoSocio(nuevoNoSocio)

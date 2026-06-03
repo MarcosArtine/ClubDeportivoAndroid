@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_option"
-        android:contentDescription="Opciones del socio" />
+        android:contentDescription="Opciones del socio"
+        android:src="@drawable/ic_option" />
 
 </LinearLayout>

@@ -110,6 +110,13 @@ class SocioActivity : AppCompatActivity() {
                     abrirDetalle(socio)
                     true
                 }
+                R.id.menuVerCarnet -> {
+                    // En lugar de un diálogo, lanzamos la nueva pantalla estética
+                    val intent = Intent(this, CarnetActivity::class.java)
+                    intent.putExtra("EXTRA_SOCIO_ID", socio.idSocio)
+                    startActivity(intent)
+                    true
+                }
                 R.id.menuDarDeBaja -> {
                     confirmarBaja(socio)
                     true
@@ -119,6 +126,7 @@ class SocioActivity : AppCompatActivity() {
         }
         popupMenu.show()
     }
+
 
     private fun confirmarBaja(socio: Socio) {
         AlertDialog.Builder(this)

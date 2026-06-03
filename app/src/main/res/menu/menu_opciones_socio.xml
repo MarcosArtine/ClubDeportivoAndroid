@@ -8,5 +8,8 @@
     <item
         android:id="@+id/menuDarDeBaja"
         android:title="Dar de baja" />
+    <item
+        android:id="@+id/menuVerCarnet"
+        android:title="Ver Carnet" />
 
 </menu>
