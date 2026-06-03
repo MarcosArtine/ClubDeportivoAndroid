@@ -39,6 +39,17 @@ class RegisterActivity : AppCompatActivity() {
                     return@setOnClickListener // Detiene la ejecución aquí
                 }
 
+
+                // Validación de seguridad del email usan la función esEmailValido
+                if (!esEmailValido(email)) {
+                    Toast.makeText(
+                        this,
+                        "El formato del correo no es correcto. Ejemplo: nombre@dominio.com",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@setOnClickListener // Detiene la ejecución aquí
+                }
+
                 //Hashamos la contraseña por seguridad
                 val contrasenaHasheada = SeguridadUtils.hashPassword(contrasena)
 
@@ -70,4 +81,10 @@ class RegisterActivity : AppCompatActivity() {
         val passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$"
         return password.matches(passwordPattern.toRegex())
     }
+
+    private fun esEmailValido(email: String): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"
+        return email.matches(emailRegex.toRegex())
+    }
+
 }

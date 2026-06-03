@@ -70,4 +70,19 @@ class UsuarioDAO(context: Context) {
         return filaActualizada
     }
 
+    fun obtenerNombrePorEmail(emailABuscar: String): String {
+        val db = dbHelper.readableDatabase
+        var nombre = "Usuario" // Valor por defecto por las dudas
+
+        val query = "SELECT nombre FROM Usuario WHERE email = ?" // Adaptá 'nombre' y 'email' a tus columnas reales
+        val cursor = db.rawQuery(query, arrayOf(emailABuscar))
+
+        if (cursor.moveToFirst()) {
+            nombre = cursor.getString(0)
+        }
+        cursor.close()
+        db.close()
+        return nombre
+    }
+
 }

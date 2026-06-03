@@ -3,6 +3,7 @@ package com.grupo4.clubdeportivo
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,9 @@ class ActividadesActivity : AppCompatActivity() {
     private lateinit var adapter: ActividadAdapter
     private lateinit var db: ActividadDAO
 
+    private lateinit var btnAgregarActividad: FloatingActionButton
+    private lateinit var btnVolver: ImageButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actividades)
@@ -31,12 +35,26 @@ class ActividadesActivity : AppCompatActivity() {
 
         cargarActividades()
 
-        val btnAgregarActividad = findViewById<FloatingActionButton>(R.id.btnNuevaActividad)
+        btnAgregarActividad = findViewById(R.id.btnNuevaActividad)
+
+        btnVolver = findViewById(R.id.btnVolver)
+
+
+        btnVolver.setOnClickListener {
+            // Volvemos a la actividad anterior
+            finish()
+        }
+
 
         btnAgregarActividad.setOnClickListener {
             val aNuevaActividad = Intent(this, NuevaActividadActivity::class.java)
             startActivity(aNuevaActividad)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cargarActividades() // Refresca los datos automáticamente
     }
 
     private fun cargarActividades() {

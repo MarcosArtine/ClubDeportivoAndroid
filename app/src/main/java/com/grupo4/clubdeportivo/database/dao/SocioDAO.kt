@@ -33,7 +33,7 @@ class SocioDAO(context: Context) {
 
             if (personaId == -1L) return -1L
 
-            // Paso 2: insertar en Socio usando el mismo ID que generó Persona
+            // insertamos en Socio usando el mismo ID que generó Persona
             val valoresSocio = ContentValues().apply {
                 put("SocioId", personaId)
                 put("FechaAltaSocio", socio.fechaAltaSocio)
@@ -77,7 +77,28 @@ class SocioDAO(context: Context) {
         return lista
     }
 
-    // BUSCAR — filtra por nombre o apellido para el buscador
+    //Función para descargar el listado de socios morosos
+    fun obtenerMorosos(): List<Socio> {
+        val lista = mutableListOf<Socio>()
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT p.*, s.* FROM Socio s INNER JOIN Persona p ON s.SocioId = p.PersonaId WHERE s.EstadoSocio = 'Moroso'",
+            null
+        )
+
+        // Lógica para llenar la lista recorriendo el cursor
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                val socio = cursorASocio(cursor)
+                lista.add(socio)
+            }
+            cursor.close()
+        }
+        db.close()
+        return lista
+    }
+
+    // filtra por nombre o apellido para el buscador
     fun buscarPorNombreOApellido(texto: String): List<Socio> {
         val lista = mutableListOf<Socio>()
         val db = dbHelper.readableDatabase

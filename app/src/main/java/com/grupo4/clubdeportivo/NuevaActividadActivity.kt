@@ -1,28 +1,35 @@
 package com.grupo4.clubdeportivo
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
-import com.grupo4.clubdeportivo.database.dao.ActividadDAO
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.textfield.TextInputEditText
+import com.grupo4.clubdeportivo.database.dao.ActividadDAO
+import com.grupo4.clubdeportivo.database.models.Actividad
 
 class NuevaActividadActivity : AppCompatActivity() {
 
-    private var selectedImageUri: String? = null // Para guardar la ruta de la imagen
+    private var selectedImageUri: String? = null
+    private var esModoEditar = false
+    private var actividadAEditar: Actividad? = null
 
-    // Definimos el lanzador de la galería
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
-            val btnImagen = findViewById<ImageButton>(R.id.btnSeleccionarImagen)
-            btnImagen.setImageURI(uri) // Muestra la imagen seleccionada en el botón
-            btnImagen.setPadding(0, 0, 0, 0) // Quitamos el padding para que la foto llene el círculo
-            selectedImageUri = uri.toString() // Guardamos la URI para la base de datos
+            val btnImagen = findViewById<ShapeableImageView>(R.id.btnSeleccionarImagen)
+            btnImagen.setImageURI(uri)
+
+            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            contentResolver.takePersistableUriPermission(uri, flag)
+
+            selectedImageUri = uri.toString()
         }
     }
 
@@ -31,47 +38,75 @@ class NuevaActividadActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_nueva_actividad)
 
+        // Referencias de la UI
+        val tvTituloPantalla = findViewById<TextView>(R.id.tvNuevaActividad) // El TextView del título principal
         val etNombre = findViewById<TextInputEditText>(R.id.etNombreActividad)
         val etMonto = findViewById<TextInputEditText>(R.id.etMonto)
-        val btnAgregar = findViewById<Button>(R.id.btnAgregar)
-        val btnImagen = findViewById<ImageButton>(R.id.btnSeleccionarImagen)
+        val btnGuardar = findViewById<Button>(R.id.btnAgregar)
+        val btnImagen = findViewById<ShapeableImageView>(R.id.btnSeleccionarImagen)
 
-        // Evento para abrir la galería de imagenes al tocar el círculo
+        // Evaluar si venimos en modo edición
+        esModoEditar = intent.getBooleanExtra("MODO_EDITAR", false)
+
+        if (esModoEditar) {
+            // Recuperar el objeto serializable (compatible con versiones anteriores y nuevas de Android)
+            actividadAEditar = @Suppress("DEPRECATION") intent.getSerializableExtra("ACTIVIDAD_OBJETO") as? Actividad
+
+            // 1. Cambiar textos de la interfaz
+            tvTituloPantalla.text = "EDITAR ACTIVIDAD"
+            btnGuardar.text = "GUARDAR CAMBIOS"
+
+            // 2. Precargar los campos con los datos existentes
+            actividadAEditar?.let { actividad ->
+                etNombre.setText(actividad.nombreActividad)
+                etMonto.setText(actividad.montoActividad.toString())
+                selectedImageUri = actividad.urlImagen
+
+                if (!actividad.urlImagen.isNullOrEmpty()) {
+                    try {
+                        btnImagen.setImageURI(Uri.parse(actividad.urlImagen))
+                    } catch (e: Exception) {
+                        btnImagen.setImageResource(R.drawable.ic_actividad)
+                    }
+                }
+            }
+        }
+
         btnImagen.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
-        btnAgregar.setOnClickListener {
+        btnGuardar.setOnClickListener {
             val nombre = etNombre.text.toString().trim()
             val montoStr = etMonto.text.toString().trim()
-
-            // Asignamos la URI guardada. Si es null, enviamos un texto vacío o una ruta por defecto.
             val urlImagen = selectedImageUri ?: ""
 
             if (nombre.isNotEmpty() && montoStr.isNotEmpty()) {
-                val monto = montoStr.toDoubleOrNull() ?: 0.0 // Evita errores si el usuario pone caracteres raros
-
+                val monto = montoStr.toDoubleOrNull() ?: 0.0
                 val actividadDAO = ActividadDAO(this)
 
-                // Enviamos la urlImagen al método
-                val esValido = actividadDAO.insertarActividad(nombre, monto, urlImagen)
+                val resultadoExitoso: Boolean
 
-                if (esValido) {
-                    Toast.makeText(this, "Actividad guardada: $nombre", Toast.LENGTH_SHORT).show()
+                if (esModoEditar) {
+                    // Lógica de Actualización
+                    // Pasamos el ID original que recuperamos del objeto
+                    val id = actividadAEditar?.idActividad ?: 0
 
-                    // Limpiar campos
-                    etNombre.text?.clear()
-                    etMonto.text?.clear()
-                    btnImagen.setImageResource(R.drawable.ic_actividad)
-                    btnImagen.setPadding(30, 30, 30, 30) // Restauramos el padding original del icono
-                    selectedImageUri = null
-
-                    //Volvemos a la pantalla de Actividades
-                    val aActividades = Intent(this, ActividadesActivity::class.java)
-                    startActivity(aActividades)
-
+                    // TODO: Asegurate de que este método exista en tu ActividadDAO con esta estructura
+                    resultadoExitoso = actividadDAO.actualizarActividad(id, nombre, monto, urlImagen)
                 } else {
-                    Toast.makeText(this, "Error al guardar en la base de datos", Toast.LENGTH_SHORT).show()
+                    // Lógica de Inserción normal
+                    resultadoExitoso = actividadDAO.insertarActividad(nombre, monto, urlImagen)
+                }
+
+                if (resultadoExitoso) {
+                    val mensaje = if (esModoEditar) "Actividad actualizada" else "Actividad guardada: $nombre"
+                    Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+
+                    // Solo cerramos esta pantalla y la anterior reaccionará en su onResume()
+                    finish()
+                } else {
+                    Toast.makeText(this, "Error al procesar en la base de datos", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Por favor completa los campos obligatorios", Toast.LENGTH_SHORT).show()

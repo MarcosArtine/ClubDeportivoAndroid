@@ -56,6 +56,9 @@ class LoginActivity : AppCompatActivity() {
                 //Instanciamos UsuarioDAO
                 val usuarioDao = UsuarioDAO(this)
 
+                // Obtenemos el nombre del usuario a partir de su email
+                val nombreReal = usuarioDao.obtenerNombrePorEmail(email)
+
                 // Consultamos si existe el usuario a la base de datos
                 val esValido = usuarioDao.buscarUsuario(email, contrasenaHasheada)
 
@@ -75,9 +78,13 @@ class LoginActivity : AppCompatActivity() {
                     }
                     editor.apply()
 
+
                     Log.d("LoginActivity", "Login exitoso")
-                    // Te redirige a la siguiente pantalla Home
-                    val aHome = Intent(this, HomeActivity::class.java)
+                    // Te redirige a la siguiente pantalla Home y le pasamos el nombre del usuario
+                    val aHome = Intent(this, HomeActivity::class.java).apply{
+                        putExtra("USUARIO_NOMBRE", nombreReal)
+                    }
+
                     startActivity(aHome)
                     finish()  //Finaliza LoginActivity para que no vuelvan atrás con el botón físico
                 } else {

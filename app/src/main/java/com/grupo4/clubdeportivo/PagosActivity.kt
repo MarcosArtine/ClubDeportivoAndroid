@@ -45,6 +45,8 @@ class PagosActivity : AppCompatActivity() {
     private lateinit var btnPagar: Button
     private lateinit var btnVolver: View
 
+    private lateinit var btnVolverPrincipal: ImageButton
+
     // ---- DAOs ----
     private lateinit var pagoCuotaDAO: PagoCuotaDAO
     private lateinit var pagoDiarioDAO: PagoDiarioDAO
@@ -71,8 +73,8 @@ class PagosActivity : AppCompatActivity() {
     }
 
     private fun inicializarVistas() {
-        layoutLista             = findViewById(R.id.layoutListaPagos)
-        layoutFormulario        = findViewById(R.id.layoutFormulario)
+        layoutLista = findViewById(R.id.layoutListaPagos)
+        layoutFormulario = findViewById(R.id.layoutFormulario)
         recyclerPagos           = findViewById(R.id.recyclerPagos)
         tvSinPagos              = findViewById(R.id.tvSinPagos)
         btnNuevoPago            = findViewById(R.id.btnNuevoPago)
@@ -91,6 +93,7 @@ class PagosActivity : AppCompatActivity() {
         etImporte               = findViewById(R.id.etImporte)
         btnPagar                = findViewById(R.id.btnPagar)
         btnVolver               = findViewById(R.id.btnVolver)
+        btnVolverPrincipal      = findViewById(R.id.btnVolverPrincipal)
 
         layoutLista.visibility      = View.VISIBLE
         layoutFormulario.visibility = View.GONE
@@ -184,6 +187,11 @@ class PagosActivity : AppCompatActivity() {
         btnPagar.setOnClickListener {
             registrarPago()
         }
+
+        btnVolverPrincipal.setOnClickListener {
+            finish()
+        }
+
     }
 
     private fun buscarClientePorTexto() {

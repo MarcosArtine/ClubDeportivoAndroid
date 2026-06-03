@@ -10,11 +10,15 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
+import com.grupo4.clubdeportivo.database.dao.NoSocioDAO
 import com.grupo4.clubdeportivo.database.dao.PagoCuotaDAO
 import com.grupo4.clubdeportivo.database.dao.SocioDAO
+import com.grupo4.clubdeportivo.database.models.NoSocio
 import com.grupo4.clubdeportivo.database.models.Socio
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -34,6 +38,7 @@ class NuevoSocioActivity : AppCompatActivity() {
     private lateinit var switchApto: SwitchMaterial
     private lateinit var btnRegistrar: MaterialButton
 
+    private lateinit var btnRetroceder: ImageButton
     private lateinit var socioDAO: SocioDAO
 
 
@@ -46,9 +51,16 @@ class NuevoSocioActivity : AppCompatActivity() {
         inicializarVistas()
         setupDropdowns()
 
+
+        btnRetroceder.setOnClickListener {
+            val aSocio = Intent(this, SocioActivity::class.java)
+            startActivity(aSocio)
+        }
+
         etFecha.setOnClickListener {
             mostrarCalendario()
         }
+
 
         btnRegistrar.setOnClickListener {
             // 1. Capturar datos de la UI
@@ -59,38 +71,60 @@ class NuevoSocioActivity : AppCompatActivity() {
             val email = etEmail.text.toString().trim()
             val fechaNac = etFecha.text.toString().trim()
             val celular = etCelular.text.toString().trim()
-            val tipoCliente = actvTipoCliente.text.toString()
+            val tipoCliente = actvTipoCliente.text.toString().trim() // "Socio" o "No Socio"
             val tieneApto = switchApto.isChecked
 
-
+            // Validar campos obligatorios comunes
             if (nombre.isEmpty() || apellido.isEmpty() || numDoc.isEmpty() || tipoCliente.isEmpty()) {
                 Toast.makeText(this, "Por favor, completa los campos obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // El idSocio es 0 por defecto
-            val nuevoSocio = Socio(
-                idSocio = 0,
-                fechaAltaSocio = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()),
-                nroCarnet = "SOC-${System.currentTimeMillis()}",
-                estadoSocio = "Activo",
-                nombre = nombre,
-                apellido = apellido,
-                tipoDni = tipoDoc,
-                nroDni = numDoc,
-                fechaNacimiento = fechaNac,
-                mail = email,
-                telefono = celular,
-                aptoFisico = tieneApto
-            )
+            val resultadoExitoso: Boolean
 
-            val resultado = socioDAO.insertarSocio(nuevoSocio)
+            // 2. Evaluar tipo de cliente e insertar en la tabla correspondiente
+            if (tipoCliente == "Socio") {
+                val nuevoSocio = Socio(
+                    idSocio = 0,
+                    fechaAltaSocio = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()),
+                    nroCarnet = "SOC-${System.currentTimeMillis()}",
+                    estadoSocio = "Activo",
+                    nombre = nombre,
+                    apellido = apellido,
+                    tipoDni = tipoDoc,
+                    nroDni = numDoc,
+                    fechaNacimiento = fechaNac,
+                    mail = email,
+                    telefono = celular,
+                    aptoFisico = tieneApto
+                )
+                val id = socioDAO.insertarSocio(nuevoSocio)
+                resultadoExitoso = id > 0
 
-            if (resultado > 0) {
-                Toast.makeText(this, "Socio registrado con éxito!", Toast.LENGTH_LONG).show()
+            } else {
+                // Instanciar el NoSocio que creamos a partir de tus Capturas de pantalla
+                val nuevoNoSocio = NoSocio(
+                    idNoSocio = 0,
+                    nombre = nombre,
+                    apellido = apellido,
+                    tipoDni = tipoDoc,
+                    nroDni = numDoc,
+                    fechaNacimiento = fechaNac,
+                    mail = email,
+                    telefono = celular,
+                    aptoFisico = tieneApto
+                )
+                val noSocioDAO = NoSocioDAO(this)
+                val id = noSocioDAO.insertarNoSocio(nuevoNoSocio)
+                resultadoExitoso = id > 0
+            }
+
+            // 3. Respuesta visual al usuario
+            if (resultadoExitoso) {
+                Toast.makeText(this, "$tipoCliente registrado con éxito!", Toast.LENGTH_LONG).show()
                 finish()
             } else {
-                Toast.makeText(this, "Error al registrar el socio", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al registrar el $tipoCliente", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -106,7 +140,9 @@ class NuevoSocioActivity : AppCompatActivity() {
         actvTipoDoc = findViewById(R.id.actvTipoDoc)
         actvTipoCliente = findViewById(R.id.actvTipoCliente)
         switchApto = findViewById(R.id.switchApto)
+        switchApto.isChecked = false
         btnRegistrar = findViewById(R.id.btnRegistrar)
+        btnRetroceder = findViewById(R.id.btnRetroceder)
     }
 
     private fun setupDropdowns() {
