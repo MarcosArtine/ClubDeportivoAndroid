@@ -7,9 +7,12 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,11 +68,12 @@ class ListadoActivity : AppCompatActivity() {
         }
     }
 
+    // CORREGIDO: Ahora pasamos las acciones reales al presionar el ítem o sus 3 puntos
     private fun configurarRecyclerView() {
         adapter = SocioAdapter(
             listaActual = emptyList(),
-            onItemClick = { /* Acción opcional */ },
-            onMenuClick = { _, _ -> }
+            onItemClick = { socio -> abrirDetalle(socio) },
+            onMenuClick = { socio, view -> mostrarMenuOpciones(socio, view) }
         )
         rvMorosos.layoutManager = LinearLayoutManager(this)
         rvMorosos.adapter = adapter
@@ -85,6 +89,57 @@ class ListadoActivity : AppCompatActivity() {
             }
         }
         adapter.actualizarLista(listaMorosos)
+    }
+
+    private fun abrirDetalle(socio: Socio) {
+        val intent = Intent(this, DetalleSocioActivity::class.java)
+        intent.putExtra(DetalleSocioActivity.EXTRA_SOCIO_ID, socio.idSocio)
+        startActivity(intent)
+    }
+
+    // NUEVO: Método para inflar y mostrar el PopupMenu al presionar los 3 puntos
+    private fun mostrarMenuOpciones(socio: Socio, anchorView: android.view.View) {
+        val popupMenu = PopupMenu(this, anchorView)
+        popupMenu.menuInflater.inflate(R.menu.menu_opciones_socio, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.menuEditar -> {
+                    abrirDetalle(socio)
+                    true
+                }
+                R.id.menuVerCarnet -> {
+                    val intent = Intent(this, CarnetActivity::class.java)
+                    intent.putExtra("EXTRA_SOCIO_ID", socio.idSocio)
+                    startActivity(intent)
+                    true
+                }
+                R.id.menuDarDeBaja -> {
+                    confirmarBaja(socio)
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
+    // NUEVO: Alerta de confirmación para dar de baja al socio moroso
+    private fun confirmarBaja(socio: Socio) {
+        AlertDialog.Builder(this)
+            .setTitle("Dar de baja")
+            .setMessage("¿Querés dar de baja a ${socio.nombre} ${socio.apellido}?")
+            .setPositiveButton("Confirmar") { _, _ ->
+                val exito = socioDAO.darDeBaja(socio.idSocio)
+                if (exito) {
+                    Toast.makeText(this, "Socio dado de baja", Toast.LENGTH_SHORT).show()
+                    cargarSociosMorosos() // Recargamos para removerlo del listado visual de morosos
+                } else {
+                    Toast.makeText(this, "Error al dar de baja", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     // lógica de exportación a PDF nativo

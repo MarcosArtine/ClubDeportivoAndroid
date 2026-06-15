@@ -185,6 +185,37 @@ class SocioDAO(context: Context) {
         return exito
     }
 
+
+    fun actualizarSociosAMorososAutomatico(): Int {
+        val db = dbHelper.writableDatabase
+        val hoy = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+
+        // CORRECCIÓN: Se cambió 'FechaVencimiento' por 'fechaVencimiento' y 'SocioId' en el sub-select
+        val query = """
+        UPDATE Socio 
+        SET EstadoSocio = 'Moroso'
+        WHERE EstadoSocio = 'Activo' 
+          AND SocioId NOT IN (
+              SELECT socioId 
+              FROM PagoCuota 
+              WHERE fechaVencimiento >= ?
+          )
+    """.trimIndent()
+
+        var filasAfectadas = 0
+        try {
+            val dbStatement = db.compileStatement(query)
+            dbStatement.bindString(1, hoy)
+            filasAfectadas = dbStatement.executeUpdateDelete()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            db.close()
+        }
+
+        return filasAfectadas
+    }
+
     // DAR DE BAJA — baja lógica, cambia estado a "Inactivo"
     fun darDeBaja(id: Int): Boolean {
         val db = dbHelper.writableDatabase

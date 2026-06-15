@@ -48,7 +48,6 @@ class ActividadDAO(context: Context) {
             put("URLImagen", urlImagen)
         }
 
-        // CORRECCIÓN: Cambiado "idActividad" por "ActividadId" para que coincida con la estructura de tu DB
         val resultado = db.update(
             "Actividad",
             cv,
